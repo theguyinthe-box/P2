@@ -19,46 +19,46 @@ public:
     //  Inserts a new object into the priority queue.  Returns true if
     //  the insertion is successful.  If the PQ is full, the insertion
     //  is aborted, and the method returns false.
-    virtual bool insert(T object) {}
+    bool insert(T object) { return pq->addFirst(); }
 
     //  Removes the object of highest priority that has been in the
     //  PQ the longest, and returns it.
     //  Throws invalid_argument if the PQ is empty.
     //         exception error message: "Cannot remove from empty queue"
-    virtual T remove() {}
+    T remove() { return pq->removeFirst(); }
 
     //  Deletes all instances of the parameter obj from the PQ if found, and
     //  returns true.  Returns false if no match to the parameter obj is found.
-    virtual bool deleteAll(T obj) {}
+    bool deleteAll(T obj) { return pq->removeAll(obj); }
 
     //  Returns the object of highest priority that has been in the
     //  PQ the longest, but does NOT remove it.
     //  Throws invalid_argument if the PQ is empty.
     //         exception error message: "Cannot peek from empty queue"
-    virtual T peek() {}
+    T peek() { return pq->peekFirst(); }
 
     //  Returns true if the priority queue contains the specified element
     //  false otherwise.
-    virtual bool contains(T obj) {}
+    bool contains(T obj) { return pq->contains(obj); }
 
     //  Returns the number of objects currently in the PQ.
-    virtual int size() {}
+    int size() { return pq->size(); }
 
     //  Returns the PQ to an empty state.
-    virtual void clear() {}
+    void clear() { return pq->makeEmpty(); }
 
     //  Returns true if the PQ is empty, otherwise false
-    virtual bool isEmpty() {}
+    bool isEmpty() { return pq->isEmpty(); }
 
     //  Returns true if the PQ is full, otherwise false.  List based
     //  implementations should always return false.
-    virtual bool isFull() {}
+    bool isFull() { return false; }
 
     //  Returns iterator to first element in PQ list, regardless of priority order
-    virtual ListIterator<T> first() { return pq->first; }
+    ListIterator<T> first() { return pq->peekFirst(); }
 
-    //  Returns iterator to first element in PQ list, regardless of priority order
-    virtual ListIterator<T> end() {}
+    //  Returns iterator to last element in PQ list, regardless of priority order
+    ListIterator<T> end() { return pq->peekLast(); }
 };
 
 #endif //LINKED_LIST_PQ_H

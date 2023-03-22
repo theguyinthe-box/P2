@@ -15,9 +15,9 @@ class ListIterator {
         //constructors
         ListIterator() { itptr = nullptr; }
 
-        ListIterator (const ListIterator<T>& q) { itptr = q.itptr; }
+        ListIterator(const ListIterator<T>& q) { itptr = q.itptr; }
 
-        ListIterator (Node<T> *q) { itptr = q; }
+        ListIterator(Node<T> *q) { itptr = q; }
 
         //overloaded operators
         //prefix
@@ -43,6 +43,7 @@ class ListIterator {
         T& operator*(){
             return itptr->data;
         }
+   
         
 };
 

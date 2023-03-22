@@ -44,6 +44,30 @@ public:
         // conditions to handle: bad index, empty list, one item,
         // insert at beginning, in the middle, at the end
 
+        if(index < 0 || index > currentSize){
+            throw std::runtime_error ("");
+        }else {
+            Node<T> *newNode = new Node<T>(obj);;
+            Node<T> *prev,
+                    *curr;
+            curr->next = head->next;
+            newNode->next = head->next;
+            prev = head;
+
+            int i = 0;
+            do{
+                curr = curr->next;
+                if(i == index){
+                    prev->next = newNode;
+                    newNode->next = curr->next;
+                    return;
+                }
+                newNode = newNode->next;
+                prev = prev->next;
+                i++;
+            }while (i < index);
+        }
+        return;
     }
 
 // addFirst : insert item at the head
@@ -61,9 +85,10 @@ public:
 // addLast : insert item at the tail
     void addLast(T obj) {
         Node<T> *newNode = new Node<T>(obj);
-        if(isEmpty())
-            head = tail = newNode;
-        else {
+        if(isEmpty()) {
+            head = newNode;
+            newNode->next = tail;
+        }else {
             tail->next = newNode;
             tail = newNode;
         }
@@ -82,9 +107,15 @@ public:
 // if list is empty: throws runtime_error "Error: peekLast empty list"
     T peekLast() {
         // TODO
-        // bogus tmp value until implemented
-        T tmp;
-        return tmp;
+        if(isEmpty()){
+            throw std::runtime_error ("Error: peekLast empty list");
+        }else {
+            Node<T> *tmp = head;
+            while (tmp->next != tail) {
+                tmp = tmp->next;
+            }
+            return tmp->data;
+        }
     }
 
 // removeAt : delete at index if it between 0 and currentSize-1
@@ -95,18 +126,41 @@ public:
         // TODO
         // conditions to handle: bad index, empty list, one item,
         //         insert at beginning, in the middle, at the end
+        if(isEmpty()){
+            throw std::runtime_error ("Error: removeAt empty List");
+        }else if( index < 0 || index > currentSize) {
+            throw std::runtime_error ("Error: removeAt bad index");
+        }else {
+            Node<T> *theNodeToDelete = head;
+            Node<T> *curr = head->next;
+            int i = 0;
+            while(i < index){
+                theNodeToDelete = curr;
+                curr = curr->next;
+                i++;
+            }
+            delete theNodeToDelete;
+        }
     }
 
 // removeFirst: return the first data item and delete it from the list
 // if list is empty: throws runtime_error "Error: removeFirst empty list"
     T removeFirst() {
-        if(isEmpty())
+
+        if(isEmpty()) {
             throw std::runtime_error("Error: removeFirst empty list");
+        }
+
         Node<T> *nodeToDelete = head;
+
         T dataToReturn = head->data;
+
         head = head->next;
-        if(head == nullptr)
+
+        if(head == nullptr) {
             head = tail = nullptr;
+        }
+
         currentSize--;
         delete nodeToDelete;
         return dataToReturn;
@@ -118,18 +172,24 @@ public:
         if(isEmpty())
             throw std::runtime_error("Error: removeLast empty list");
         Node<T> *nodeToDelete = tail;
+
         T tmp = tail->data;
-        if(head == tail) // only one element in the list
+
+        if(head == tail) { // only one element in the list
             head = tail = nullptr;
-        else {
-            Node<T> *previous = nullptr, *current = head;
+        }else {
+            Node<T> *previous = nullptr,
+                    *current = head;
+
             while(current != tail) {
                 previous = current;
                 current = current->next;
             }
+
             previous->next = nullptr;
             tail = previous;
         }
+
         currentSize--;
         delete nodeToDelete;
         return tmp;
@@ -138,6 +198,14 @@ public:
 // find: gets the index of the object if it's in the list else
 // if list is empty or the item is not found: returns -1
     int find(T obj) {
+        Node<T> *tmp = head;
+        for(int index = 0; index < currentSize; index++){
+            if(*tmp->data == *obj->data){
+                return index;
+            }
+            tmp = tmp->next;
+        }
+        return -1;
     }
 
 // isFull: list is never full
@@ -150,7 +218,17 @@ public:
 // Note: to free memory, must call for each node:
 //       delete theNodeToDelete;
     void makeEmpty() {
-        // TODO
+        Node<T> *theNodeToDelete = head;
+        Node<T> *curr = head->next;
+
+        while(theNodeToDelete->next != tail){
+            theNodeToDelete = curr;
+            curr = curr->next;
+            delete theNodeToDelete;
+        }
+
+        head = tail = NULL;
+        currentSize = 0;
     }
 
 // contains: returns true if the item is in the list
@@ -197,7 +275,17 @@ public:
 
 // removeAll: deletes all occurences of item in the list
     void removeAll(T obj) {
-        // TODO
+        Node<T> *theNodeToDelete = head;
+        Node<T> *curr = head->next;
+
+        while(curr != tail) {
+            theNodeToDelete = curr;
+            if (theNodeToDelete->data = obj->data) {
+                delete theNodeToDelete;
+                currentSize--;
+            }
+            curr = curr->next;
+        }
     }
 
 // first:  returns a ListIterator at head of list
