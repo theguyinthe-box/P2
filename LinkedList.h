@@ -32,7 +32,7 @@ public:
 
 // isEmpty: return true is list has no items in it
     bool isEmpty() {
-        return head == nullptr;
+        return head == NULL;
     }
 
 // addAt : insert item at index if it between 0 and currentSize
@@ -45,29 +45,31 @@ public:
         // insert at beginning, in the middle, at the end
 
         if(index < 0 || index > currentSize){
-            throw std::runtime_error ("");
+            throw std::runtime_error ("bad index");
         }else {
-            Node<T> *newNode = new Node<T>(obj);;
-            Node<T> *prev,
-                    *curr;
-            curr->next = head->next;
-            newNode->next = head->next;
-            prev = head;
+            Node<T> *curr = head,
+                    *newNode= new Node<T>(obj);
 
-            int i = 0;
-            do{
+            if( index == 0){
+                printf("adding first\n");
+                addFirst(obj);
+                return;
+            }
+
+            if( index == currentSize - 1 ){
+                printf("adding last\n");
+                addLast(obj);
+                return;
+            }
+
+            for(int i = 0; i < index - 1 ; i++){
                 curr = curr->next;
-                if(i == index){
-                    prev->next = newNode;
-                    newNode->next = curr->next;
-                    return;
-                }
-                newNode = newNode->next;
-                prev = prev->next;
-                i++;
-            }while (i < index);
+            }
+
+            newNode->next = curr->next;
+            curr->next = newNode;
+            currentSize++;
         }
-        return;
     }
 
 // addFirst : insert item at the head
@@ -111,7 +113,7 @@ public:
             throw std::runtime_error ("Error: peekLast empty list");
         }else {
             Node<T> *tmp = head;
-            while (tmp->next != tail) {
+            while (tmp != tail) {
                 tmp = tmp->next;
             }
             return tmp->data;
@@ -131,15 +133,27 @@ public:
         }else if( index < 0 || index > currentSize) {
             throw std::runtime_error ("Error: removeAt bad index");
         }else {
-            Node<T> *theNodeToDelete = head;
-            Node<T> *curr = head->next;
-            int i = 0;
-            while(i < index){
-                theNodeToDelete = curr;
-                curr = curr->next;
-                i++;
+            if( index == 0){
+                printf("in remove first\n");
+                removeFirst();
+                return;
+            }else if( index == currentSize - 1 ) {
+                printf("in remove last\n");
+                removeLast();
+                return;
+            }else{
+                Node<T> *curr = head,
+                        *delNode;
+
+                for(int i = 0; i < index-1; i++){
+                    curr = curr->next;
+                }
+                delNode = curr->next;
+                curr->next = delNode->next;
+                delete delNode;
+                currentSize--;
             }
-            delete theNodeToDelete;
+
         }
     }
 
@@ -150,7 +164,6 @@ public:
         if(isEmpty()) {
             throw std::runtime_error("Error: removeFirst empty list");
         }
-
         Node<T> *nodeToDelete = head;
 
         T dataToReturn = head->data;
@@ -198,12 +211,12 @@ public:
 // find: gets the index of the object if it's in the list else
 // if list is empty or the item is not found: returns -1
     int find(T obj) {
-        Node<T> *tmp = head;
+        Node<T> *curr = head;
         for(int index = 0; index < currentSize; index++){
-            if(*tmp->data == *obj->data){
+            if(curr->data == obj){
                 return index;
             }
-            tmp = tmp->next;
+            curr = curr->next;
         }
         return -1;
     }
@@ -218,11 +231,10 @@ public:
 // Note: to free memory, must call for each node:
 //       delete theNodeToDelete;
     void makeEmpty() {
-        Node<T> *theNodeToDelete = head;
-        Node<T> *curr = head->next;
+        Node<T> *curr = head;
 
-        while(theNodeToDelete->next != tail){
-            theNodeToDelete = curr;
+        while(curr->next != tail){
+            Node<T> *theNodeToDelete = curr;
             curr = curr->next;
             delete theNodeToDelete;
         }
@@ -275,16 +287,8 @@ public:
 
 // removeAll: deletes all occurences of item in the list
     void removeAll(T obj) {
-        Node<T> *theNodeToDelete = head;
-        Node<T> *curr = head->next;
-
-        while(curr != tail) {
-            theNodeToDelete = curr;
-            if (theNodeToDelete->data = obj->data) {
-                delete theNodeToDelete;
-                currentSize--;
-            }
-            curr = curr->next;
+        while(contains(obj)){
+            remove(obj);
         }
     }
 

@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <stdexcept>
+#include <unistd.h>
 
 // Use iterator to view contents of linked list
 template<typename T>
@@ -18,7 +19,7 @@ void print(LinkedList<T> list) {
     for (p = list.first(); p != list.end(); p++) {
         std::cout << *p << ' ';
     }
-
+    printf("\n currentsize = %d\n", list.size());
     std::cout << std::endl;
 }
 
@@ -114,25 +115,34 @@ int main() {
         list.removeAll(i);
         print(list);
     }
+    print(list);
 
     // addAt
+    //system("pause");
     list.addAt(0,30);
     print(list);
+    //system("pause");
     list.addAt(1,20); //works
     print(list);
+    //system("pause");
     list.addAt(0,5); // works
     print(list);
+    printf("should be 5 10 30 20\n");
     list.addAt(1,10);
     print(list);
+    printf("should be 5 10 15 30 20\n");
     list.addAt(2,15);
     print(list);
 
     // removeAt
     // list-> 5 10 15 30 20
+    printf("remove @ 0\n");
     list.removeAt(0); // 10 15 30 20
     print(list);
+    printf("remove @ 1\n");
     list.removeAt(1); // 10 30 20
     print(list);
+    printf("remove @ 2\n");
     list.removeAt(2); // 10 30
     print(list);
     try {

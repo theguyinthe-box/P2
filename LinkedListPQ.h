@@ -19,7 +19,8 @@ public:
     //  Inserts a new object into the priority queue.  Returns true if
     //  the insertion is successful.  If the PQ is full, the insertion
     //  is aborted, and the method returns false.
-    bool insert(T object) { return pq->addFirst(); }
+    bool insert(T object) { pq->addLast(object);
+                            return true; }
 
     //  Removes the object of highest priority that has been in the
     //  PQ the longest, and returns it.
@@ -29,7 +30,14 @@ public:
 
     //  Deletes all instances of the parameter obj from the PQ if found, and
     //  returns true.  Returns false if no match to the parameter obj is found.
-    bool deleteAll(T obj) { return pq->removeAll(obj); }
+    bool deleteAll(T obj) {
+        if(contains(obj)) {
+            pq->removeAll(obj);
+            return true;
+        }else {
+            return false;
+        }
+    }
 
     //  Returns the object of highest priority that has been in the
     //  PQ the longest, but does NOT remove it.
@@ -55,10 +63,10 @@ public:
     bool isFull() { return false; }
 
     //  Returns iterator to first element in PQ list, regardless of priority order
-    ListIterator<T> first() { return pq->peekFirst(); }
+    ListIterator<T> first() { pq->peekFirst(); }
 
     //  Returns iterator to last element in PQ list, regardless of priority order
-    ListIterator<T> end() { return pq->peekLast(); }
+    ListIterator<T> end() { pq->peekLast(); }
 };
 
 #endif //LINKED_LIST_PQ_H
