@@ -32,7 +32,7 @@ public:
 
 // isEmpty: return true is list has no items in it
     bool isEmpty() {
-        return head == NULL;
+        return head == nullptr;
     }
 
 // addAt : insert item at index if it between 0 and currentSize
@@ -130,22 +130,22 @@ public:
         //         insert at beginning, in the middle, at the end
         if(isEmpty()){
             throw std::runtime_error ("Error: removeAt empty List");
-        }else if( index < 0 || index > currentSize) {
+        }else if( index < 0 || index > currentSize - 1) {
             throw std::runtime_error ("Error: removeAt bad index");
         }else {
             if( index == 0){
-                printf("in remove first\n");
+                //printf("in remove first\n");
                 removeFirst();
                 return;
-            }else if( index == currentSize - 1 ) {
-                printf("in remove last\n");
+            }else if( index == (currentSize-1) ) {
                 removeLast();
                 return;
-            }else{
+            }else {
+                printf("deleting some stuff in thuh middle\n");
                 Node<T> *curr = head,
                         *delNode;
 
-                for(int i = 0; i < index-1; i++){
+                for(int i = 0; i < index; i++){
                     curr = curr->next;
                 }
                 delNode = curr->next;
@@ -153,7 +153,6 @@ public:
                 delete delNode;
                 currentSize--;
             }
-
         }
     }
 
@@ -182,33 +181,31 @@ public:
 // removeLast: returns the last data item and deletes it from the list
 // if list is empty: throws runtime_error "Error: removeLast empty list"
     T removeLast() {
-        if(isEmpty())
+        printf("removing last\n");
+        if(isEmpty()) {
             throw std::runtime_error("Error: removeLast empty list");
-        Node<T> *nodeToDelete = tail;
-
-        T tmp = tail->data;
-
-        if(head == tail) { // only one element in the list
+        }
+        Node<T> *previous = nullptr,
+                *current = head;
+        T tmp = tail->data;            //stores data in tail node to tmp
+        if(head == tail) {             // only one element in the list
+            printf("removing only one element\n");
             head = tail = nullptr;
         }else {
-            Node<T> *previous = nullptr,
-                    *current = head;
-
             while(current != tail) {
                 previous = current;
                 current = current->next;
             }
-
             previous->next = nullptr;
             tail = previous;
         }
-
+        delete current;
         currentSize--;
-        delete nodeToDelete;
         return tmp;
     }
 
-// find: gets the index of the object if it's in the list else
+
+    // find: gets the index of the object if it's in the list else
 // if list is empty or the item is not found: returns -1
     int find(T obj) {
         Node<T> *curr = head;
@@ -239,7 +236,7 @@ public:
             delete theNodeToDelete;
         }
 
-        head = tail = NULL;
+        head = tail = nullptr;
         currentSize = 0;
     }
 
