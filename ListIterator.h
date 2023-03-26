@@ -26,10 +26,10 @@ class ListIterator {
             return *this;
         }
 
-        ListIterator& operator++(int){
-            ListIterator<T> tmp = *this;
-            ++*this;
-            return tmp;
+        ListIterator& operator++(int){// postfix, p++
+                ListIterator<T> tmp = *this; // make a copy of current state
+                ++*this; // call prefix to update the state, ++(*this)
+                return tmp; // return the copy of the now former state
         }
 
         bool operator==(ListIterator<T> q) {

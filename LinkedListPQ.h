@@ -15,7 +15,8 @@ private:
     LinkedList<T> *pq;
 
 public:
-// Your code here
+    // Your code here
+
     //  Inserts a new object into the priority queue.  Returns true if
     //  the insertion is successful.  If the PQ is full, the insertion
     //  is aborted, and the method returns false.
@@ -66,10 +67,10 @@ public:
     bool isFull() { return false; }
 
     //  Returns iterator to first element in PQ list, regardless of priority order
-    ListIterator<T> first() { pq->first(); }
+    ListIterator<T> first() { return pq->first(); }
 
     //  Returns iterator to last element in PQ list, regardless of priority order
-    ListIterator<T> end() { pq->end(); }
+    ListIterator<T> end() { return pq->end(); }
 };
 
 #endif //LINKED_LIST_PQ_H
