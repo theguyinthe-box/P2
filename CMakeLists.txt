@@ -3,4 +3,4 @@ project(P2)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(P2 p2driver.cpp LinkedList.h LinkedListPQ.h ListIterator.h Node.h PriorityQueue.h)
+add_executable(P2 p2pqdriver.cpp LinkedList.h LinkedListPQ.h ListIterator.h Node.h PriorityQueue.h)

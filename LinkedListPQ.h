@@ -31,12 +31,15 @@ public:
     //  Deletes all instances of the parameter obj from the PQ if found, and
     //  returns true.  Returns false if no match to the parameter obj is found.
     bool deleteAll(T obj) {
+
+
         if(contains(obj)) {
             pq->removeAll(obj);
             return true;
         }else {
             return false;
         }
+
     }
 
     //  Returns the object of highest priority that has been in the
@@ -53,7 +56,7 @@ public:
     int size() { return pq->size(); }
 
     //  Returns the PQ to an empty state.
-    void clear() { return pq->makeEmpty(); }
+    void clear() {  pq->makeEmpty(); }
 
     //  Returns true if the PQ is empty, otherwise false
     bool isEmpty() { return pq->isEmpty(); }
@@ -63,10 +66,10 @@ public:
     bool isFull() { return false; }
 
     //  Returns iterator to first element in PQ list, regardless of priority order
-    ListIterator<T> first() { pq->peekFirst(); }
+    ListIterator<T> first() { pq->first(); }
 
     //  Returns iterator to last element in PQ list, regardless of priority order
-    ListIterator<T> end() { pq->peekLast(); }
+    ListIterator<T> end() { pq->end(); }
 };
 
 #endif //LINKED_LIST_PQ_H

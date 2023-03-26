@@ -56,7 +56,7 @@ public:
                 return;
             }
 
-            if( index == currentSize - 1 ){
+            if( index == currentSize ){
                 printf("adding last\n");
                 addLast(obj);
                 return;
@@ -89,7 +89,7 @@ public:
         Node<T> *newNode = new Node<T>(obj);
         if(isEmpty()) {
             head = newNode;
-            newNode->next = tail;
+            tail = newNode;
         }else {
             tail->next = newNode;
             tail = newNode;
@@ -109,7 +109,7 @@ public:
 // if list is empty: throws runtime_error "Error: peekLast empty list"
     T peekLast() {
         // TODO
-        if(isEmpty()){
+        if(head == nullptr){
             throw std::runtime_error ("Error: peekLast empty list");
         }else {
             Node<T> *tmp = head;
@@ -117,6 +117,8 @@ public:
                 tmp = tmp->next;
             }
             return tmp->data;
+
+            /*return tail->data;*/
         }
     }
 
@@ -140,10 +142,11 @@ public:
             }else if( index == (currentSize-1) ) {
                 removeLast();
                 return;
+
             }else {
                 printf("deleting some stuff in thuh middle\n");
                 Node<T> *curr = head,
-                        *delNode;
+                        *delNode = nullptr;
 
                 for(int i = 0; i < index; i++){
                     curr = curr->next;
@@ -228,12 +231,17 @@ public:
 // Note: to free memory, must call for each node:
 //       delete theNodeToDelete;
     void makeEmpty() {
-        Node<T> *curr = head;
+
+        if(head == nullptr) {
+            return;
+        }
+        Node<T> *curr = head,
+                *delNode = nullptr;
 
         while(curr->next != tail){
-            Node<T> *theNodeToDelete = curr;
+            delNode = curr;
             curr = curr->next;
-            delete theNodeToDelete;
+            delete delNode;
         }
 
         head = tail = nullptr;
